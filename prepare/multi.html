@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[치매 예방 게임]곱하기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1>치매 예방 게임</h1>
+        <span>{{ first }} X {{ second }} =</span>
+        <form @submit="onSubmitForm">
+            <input type="number" v-model="value" ref="answer">
+            <button type="submit">입력</button>
+        </form>
+        <div id="result">{{ result }}</div>
+        <div>정답 맞춘 갯수 : {{ correct_count }}</div>
+    </div>
+    <script>
+        const app = new Vue({
+            el:"#root",
+            data:{
+                first:Math.ceil(Math.random()*9),
+                second:Math.ceil(Math.random()*9),
+                value:'',
+                result:'',
+                correct_count:0,
+            },
+            methods:{
+                onSubmitForm(e){
+                    e.preventDefault();//새로고침을 막는다.
+                    if(this.first * this.second === parseInt(this.value)){
+                        this.result = '정답';
+                        this.first = Math.ceil(Math.random()*9);
+                        this.second = Math.ceil(Math.random()*9);
+                        this.value = '';
+                        this.$refs.answer.focus();
+                        this.correct_count++;
+                    }else{
+                        this.result = '땡';
+                        this.value = '';
+                        this.$refs.answer.focus();
+                    }                    
+                }
+            },
+        })
+    </script>
+</body>
+</html>
